@@ -211,21 +211,23 @@ def _pageindex_sdk_search(query: str, top_k: int) -> list[dict]:
 
 def _local_vectorless_search(query: str, top_k: int) -> list[dict]:
     results: list[dict] = []
+    zero_score_backfill: list[dict] = []
     for document in _read_markdown_documents():
         for chunk_index, chunk in enumerate(_chunk_for_pageindex(document["content"])):
             score = _overlap_score(query, chunk)
+            candidate = {
+                "content": chunk,
+                "score": float(score),
+                "metadata": {**document["metadata"], "chunk_index": chunk_index, "mode": "local_vectorless"},
+                "source": "pageindex",
+            }
             if score <= 0:
+                if len(zero_score_backfill) < top_k:
+                    zero_score_backfill.append(candidate)
                 continue
-            results.append(
-                {
-                    "content": chunk,
-                    "score": float(score),
-                    "metadata": {**document["metadata"], "chunk_index": chunk_index, "mode": "local_vectorless"},
-                    "source": "pageindex",
-                }
-            )
+            results.append(candidate)
     results.sort(key=lambda result: result["score"], reverse=True)
-    return results[:top_k]
+    return (results or zero_score_backfill)[:top_k]
 
 
 def pageindex_search(query: str, top_k: int = 5) -> list[dict]:
