@@ -97,7 +97,7 @@ Nen return dict:
 ## Prompt mau cho Codex
 
 ```text
-Doc group_project/docs/qwen-api.md va group_project/docs/qwen-generation-workflow.md.
+Doc group_project/docs/qwen-api.md.
 Viet group_project/src/qwen_client.py.
 Yeu cau:
 - doc QWEN_API_KEY, QWEN_BASE_URL, QWEN_MODEL_NAME tu .env
@@ -107,4 +107,3 @@ Yeu cau:
 - neu thieu evidence thi tra "I cannot verify this information"
 - khong hard-code secret
 ```
-

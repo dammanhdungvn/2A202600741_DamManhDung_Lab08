@@ -98,7 +98,7 @@ Vi du:
 ## Prompt mau cho Codex
 
 ```text
-Doc group_project/docs/page-index.md va group_project/docs/pageindex-upload-workflow.md.
+Doc group_project/docs/page-index.md.
 Viet group_project/src/pageindex_client.py.
 Yeu cau:
 - upload dung 3 PDF legal
@@ -107,4 +107,3 @@ Yeu cau:
 - check status completed
 - khong hard-code secret
 ```
-

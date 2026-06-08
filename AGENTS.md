@@ -23,13 +23,11 @@ Current intended stack:
 Read these before coding:
 - `README.md`
 - `group_project/README.md`
+- `group_project/docs/project-brief.md`
 - `group_project/docs/qwen-api.md`
 - `group_project/docs/page-index.md`
-- `group_project/docs/project-brief.md`
-- `group_project/docs/tech-stack.md`
-- `group_project/docs/pageindex-upload-workflow.md`
-- `group_project/docs/qwen-generation-workflow.md`
-- `group_project/docs/vibe-coding-plan.md`
+- `group_project/docs/weaviate.md`
+- `group_project/docs/codex-vibe-coding-guide.md`
 
 ## Environment Rules
 
@@ -124,4 +122,3 @@ For every task:
 - Do not change unit tests unless explicitly asked.
 - Do not replace the individual task modules unless the group code needs a thin adapter.
 - Do not over-engineer the demo.
-

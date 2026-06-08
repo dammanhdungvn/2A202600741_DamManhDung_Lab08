@@ -1,25 +1,25 @@
 # Codex Vibe Coding Guide
 
-## Mục tiêu
+## Má»¥c tiÃªu
 
-File này hướng dẫn cách dùng Codex để vibe coding hiệu quả cho group project RAG chatbot/evaluation.
+File nÃ y hÆ°á»›ng dáº«n cÃ¡ch dÃ¹ng Codex Ä‘á»ƒ vibe coding hiá»‡u quáº£ cho group project RAG chatbot/evaluation.
 
-Codex sẽ làm tốt hơn nếu bạn luôn đưa đúng ngữ cảnh:
+Codex sáº½ lÃ m tá»‘t hÆ¡n náº¿u báº¡n luÃ´n Ä‘Æ°a Ä‘Ãºng ngá»¯ cáº£nh:
 
 - `AGENTS.md`
 - docs trong `group_project/docs/`
-- file code cụ thể đang muốn sửa
-- yêu cầu nhỏ, rõ, có tiêu chí kiểm tra
+- file code cá»¥ thá»ƒ Ä‘ang muá»‘n sá»­a
+- yÃªu cáº§u nhá», rÃµ, cÃ³ tiÃªu chÃ­ kiá»ƒm tra
 
-## Hiểu nhanh `/` và `@`
+## Hiá»ƒu nhanh `/` vÃ  `@`
 
-Trong Codex/AI coding tools, thường có hai kiểu thao tác hay gặp:
+Trong Codex/AI coding tools, thÆ°á»ng cÃ³ hai kiá»ƒu thao tÃ¡c hay gáº·p:
 
 ### `/`
 
-`/` thường là command hoặc workflow shortcut.
+`/` thÆ°á»ng lÃ  command hoáº·c workflow shortcut.
 
-Ví dụ có thể gặp:
+VÃ­ dá»¥ cÃ³ thá»ƒ gáº·p:
 
 ```text
 /plan
@@ -28,366 +28,365 @@ Ví dụ có thể gặp:
 /test
 ```
 
-Tùy app/tool mà command có sẵn khác nhau. Nếu không chắc command có tồn tại không, cứ viết bằng câu thường cũng được.
+TÃ¹y app/tool mÃ  command cÃ³ sáºµn khÃ¡c nhau. Náº¿u khÃ´ng cháº¯c command cÃ³ tá»“n táº¡i khÃ´ng, cá»© viáº¿t báº±ng cÃ¢u thÆ°á»ng cÅ©ng Ä‘Æ°á»£c.
 
-Ví dụ thay vì:
+VÃ­ dá»¥ thay vÃ¬:
 
 ```text
 /plan build rag chatbot
 ```
 
-bạn có thể viết:
+báº¡n cÃ³ thá»ƒ viáº¿t:
 
 ```text
-Hãy lập kế hoạch build RAG chatbot theo AGENTS.md và docs trong group_project/docs. Chưa code vội.
+HÃ£y láº­p káº¿ hoáº¡ch build RAG chatbot theo AGENTS.md vÃ  docs trong group_project/docs. ChÆ°a code vá»™i.
 ```
 
 ### `@`
 
-`@` thường dùng để tag file/folder/context cho AI đọc.
+`@` thÆ°á»ng dÃ¹ng Ä‘á»ƒ tag file/folder/context cho AI Ä‘á»c.
 
-Ví dụ:
+VÃ­ dá»¥:
 
 ```text
 @AGENTS.md
 @group_project/docs/project-brief.md
-@group_project/docs/pageindex-upload-workflow.md
+@group_project/docs/page-index.md
 @group_project/src/pageindex_client.py
 ```
 
-Khi tag file, bạn đang nói với Codex: "Hãy đọc file này làm ngữ cảnh chính".
+Khi tag file, báº¡n Ä‘ang nÃ³i vá»›i Codex: "HÃ£y Ä‘á»c file nÃ y lÃ m ngá»¯ cáº£nh chÃ­nh".
 
-Nếu UI không hỗ trợ tag `@`, bạn vẫn có thể viết đường dẫn bình thường:
+Náº¿u UI khÃ´ng há»— trá»£ tag `@`, báº¡n váº«n cÃ³ thá»ƒ viáº¿t Ä‘Æ°á»ng dáº«n bÃ¬nh thÆ°á»ng:
 
 ```text
-Hãy đọc AGENTS.md và group_project/docs/pageindex-upload-workflow.md trước.
+HÃ£y Ä‘á»c AGENTS.md vÃ  group_project/docs/page-index.md trÆ°á»›c.
 ```
 
-## Quy trình vibe coding khuyến nghị
+## Quy trÃ¬nh vibe coding khuyáº¿n nghá»‹
 
-### Bước 1: Luôn bắt Codex đọc context trước
+### BÆ°á»›c 1: LuÃ´n báº¯t Codex Ä‘á»c context trÆ°á»›c
 
-Prompt mẫu:
+Prompt máº«u:
 
 ```text
-Bạn là senior AI Engineer. Trước khi code, hãy đọc:
+Báº¡n lÃ  senior AI Engineer. TrÆ°á»›c khi code, hÃ£y Ä‘á»c:
 @AGENTS.md
 @group_project/docs/project-brief.md
-@group_project/docs/tech-stack.md
 @group_project/docs/page-index.md
 @group_project/docs/qwen-api.md
-@group_project/docs/pageindex-upload-workflow.md
-@group_project/docs/qwen-generation-workflow.md
-
-Sau đó tóm tắt ngắn bạn hiểu task này thế nào. Chưa sửa file.
-```
-
-Mục tiêu: tránh Codex đoán sai.
-
-### Bước 2: Yêu cầu plan nhỏ
-
-Prompt mẫu:
-
-```text
-Dựa trên docs đã đọc, hãy lập plan build PageIndex client cho group project.
-Yêu cầu:
-- chỉ upload 3 PDF legal đã ghi trong docs
-- đọc PAGEINDEX_API_KEY từ .env
-- lưu doc_id vào manifest
-- chưa code vội
-```
-
-Mục tiêu: kiểm tra hướng đi trước khi cho code.
-
-### Bước 3: Cho code từng phần nhỏ
-
-Prompt mẫu:
-
-```text
-Đọc @group_project/docs/page-index.md trước.
-Thực hiện bước 1 trong plan: viết file group_project/src/pageindex_client.py.
-
-Yêu cầu:
-- đọc .env từ root
-- dùng PageIndexClient
-- upload 3 PDF trong docs
-- lưu manifest vào group_project/pageindex_manifest.json
-- không hard-code API key
-- sau khi code xong chạy smoke test phù hợp
-```
-
-Không nên nói:
-
-```text
-Build full app luôn.
-```
-
-Vì task quá rộng, Codex dễ làm lan man.
-
-### Bước 4: Sau mỗi lần code, bắt Codex verify
-
-Prompt mẫu:
-
-```text
-Hãy chạy smoke test cho file vừa viết.
-Nếu test lỗi, sửa lỗi. Không sửa file không liên quan.
-```
-
-Hoặc:
-
-```text
-Kiểm tra git diff và giải thích file nào đã thay đổi.
-```
-
-### Bước 5: Build Qwen client
-
-Prompt mẫu:
-
-```text
-Đọc:
+@group_project/docs/page-index.md
 @group_project/docs/qwen-api.md
-@group_project/docs/qwen-generation-workflow.md
 
-Viết group_project/src/qwen_client.py.
-Yêu cầu:
-- dùng OpenAI SDK compatible
-- api_key từ QWEN_API_KEY
-- base_url từ QWEN_BASE_URL
-- model từ QWEN_MODEL_NAME
+Sau Ä‘Ã³ tÃ³m táº¯t ngáº¯n báº¡n hiá»ƒu task nÃ y tháº¿ nÃ o. ChÆ°a sá»­a file.
+```
+
+Má»¥c tiÃªu: trÃ¡nh Codex Ä‘oÃ¡n sai.
+
+### BÆ°á»›c 2: YÃªu cáº§u plan nhá»
+
+Prompt máº«u:
+
+```text
+Dá»±a trÃªn docs Ä‘Ã£ Ä‘á»c, hÃ£y láº­p plan build PageIndex client cho group project.
+YÃªu cáº§u:
+- chá»‰ upload 3 PDF legal Ä‘Ã£ ghi trong docs
+- Ä‘á»c PAGEINDEX_API_KEY tá»« .env
+- lÆ°u doc_id vÃ o manifest
+- chÆ°a code vá»™i
+```
+
+Má»¥c tiÃªu: kiá»ƒm tra hÆ°á»›ng Ä‘i trÆ°á»›c khi cho code.
+
+### BÆ°á»›c 3: Cho code tá»«ng pháº§n nhá»
+
+Prompt máº«u:
+
+```text
+Äá»c @group_project/docs/page-index.md trÆ°á»›c.
+Thá»±c hiá»‡n bÆ°á»›c 1 trong plan: viáº¿t file group_project/src/pageindex_client.py.
+
+YÃªu cáº§u:
+- Ä‘á»c .env tá»« root
+- dÃ¹ng PageIndexClient
+- upload 3 PDF trong docs
+- lÆ°u manifest vÃ o group_project/pageindex_manifest.json
+- khÃ´ng hard-code API key
+- sau khi code xong cháº¡y smoke test phÃ¹ há»£p
+```
+
+KhÃ´ng nÃªn nÃ³i:
+
+```text
+Build full app luÃ´n.
+```
+
+VÃ¬ task quÃ¡ rá»™ng, Codex dá»… lÃ m lan man.
+
+### BÆ°á»›c 4: Sau má»—i láº§n code, báº¯t Codex verify
+
+Prompt máº«u:
+
+```text
+HÃ£y cháº¡y smoke test cho file vá»«a viáº¿t.
+Náº¿u test lá»—i, sá»­a lá»—i. KhÃ´ng sá»­a file khÃ´ng liÃªn quan.
+```
+
+Hoáº·c:
+
+```text
+Kiá»ƒm tra git diff vÃ  giáº£i thÃ­ch file nÃ o Ä‘Ã£ thay Ä‘á»•i.
+```
+
+### BÆ°á»›c 5: Build Qwen client
+
+Prompt máº«u:
+
+```text
+Äá»c:
+@group_project/docs/qwen-api.md
+@group_project/docs/qwen-api.md
+
+Viáº¿t group_project/src/qwen_client.py.
+YÃªu cáº§u:
+- dÃ¹ng OpenAI SDK compatible
+- api_key tá»« QWEN_API_KEY
+- base_url tá»« QWEN_BASE_URL
+- model tá»« QWEN_MODEL_NAME
 - function generate_answer(question, contexts)
-- nếu thiếu evidence thì trả "I cannot verify this information"
-- không hard-code secret
+- náº¿u thiáº¿u evidence thÃ¬ tráº£ "I cannot verify this information"
+- khÃ´ng hard-code secret
 ```
 
-### Bước 6: Build RAG pipeline
+### BÆ°á»›c 6: Build RAG pipeline
 
-Prompt mẫu:
+Prompt máº«u:
 
 ```text
-Viết group_project/src/rag_pipeline.py.
+Viáº¿t group_project/src/rag_pipeline.py.
 
-Yêu cầu:
-- nhận question
-- gọi pageindex_client để retrieve context
-- gọi qwen_client để generate answer
-- return dict gồm answer và sources
+YÃªu cáº§u:
+- nháº­n question
+- gá»i pageindex_client Ä‘á»ƒ retrieve context
+- gá»i qwen_client Ä‘á»ƒ generate answer
+- return dict gá»“m answer vÃ  sources
 - citation format [Source, Year]
-- code đơn giản để demo
+- code Ä‘Æ¡n giáº£n Ä‘á»ƒ demo
 ```
 
-### Bước 7: Build UI
+### BÆ°á»›c 7: Build UI
 
-Prompt mẫu:
+Prompt máº«u:
 
 ```text
-Viết group_project/app.py bằng Streamlit.
+Viáº¿t group_project/app.py báº±ng Streamlit.
 
-Yêu cầu:
-- ô chat nhập câu hỏi
-- gọi rag_pipeline
-- hiển thị answer
-- hiển thị sources bên dưới
-- có session_state lưu history đơn giản
-- không làm UI phức tạp
+YÃªu cáº§u:
+- Ã´ chat nháº­p cÃ¢u há»i
+- gá»i rag_pipeline
+- hiá»ƒn thá»‹ answer
+- hiá»ƒn thá»‹ sources bÃªn dÆ°á»›i
+- cÃ³ session_state lÆ°u history Ä‘Æ¡n giáº£n
+- khÃ´ng lÃ m UI phá»©c táº¡p
 ```
 
-### Bước 8: Build evaluation
+### BÆ°á»›c 8: Build evaluation
 
-Prompt mẫu:
+Prompt máº«u:
 
 ```text
-Đọc group_project/README.md phần Evaluation.
+Äá»c group_project/README.md pháº§n Evaluation.
 
-Tạo:
-- group_project/evaluation/golden_dataset.json với 15 Q&A
+Táº¡o:
+- group_project/evaluation/golden_dataset.json vá»›i 15 Q&A
 - group_project/evaluation/eval_pipeline.py
 - group_project/evaluation/results.md template
 
-Chọn DeepEval nếu dễ nhất. Nếu cần API model thì dùng Qwen config từ .env.
+Chá»n DeepEval náº¿u dá»… nháº¥t. Náº¿u cáº§n API model thÃ¬ dÃ¹ng Qwen config tá»« .env.
 ```
 
-## Prompt mẫu dùng hằng ngày
+## Prompt máº«u dÃ¹ng háº±ng ngÃ y
 
-### Khi muốn làm PageIndex
+### Khi muá»‘n lÃ m PageIndex
 
 ```text
-Đọc:
+Äá»c:
 @group_project/docs/page-index.md
-@group_project/docs/pageindex-upload-workflow.md
+@group_project/docs/page-index.md
 
-Sau đó viết hoặc sửa PageIndex client. Chỉ upload 3 PDF legal đã ghi trong docs.
+Sau Ä‘Ã³ viáº¿t hoáº·c sá»­a PageIndex client. Chá»‰ upload 3 PDF legal Ä‘Ã£ ghi trong docs.
 ```
 
-### Khi muốn làm Qwen
+### Khi muá»‘n lÃ m Qwen
 
 ```text
-Đọc:
+Äá»c:
 @group_project/docs/qwen-api.md
-@group_project/docs/qwen-generation-workflow.md
+@group_project/docs/qwen-api.md
 
-Sau đó viết hoặc sửa Qwen client. Không hard-code API key, base URL, model name.
+Sau Ä‘Ã³ viáº¿t hoáº·c sá»­a Qwen client. KhÃ´ng hard-code API key, base URL, model name.
 ```
 
-### Khi muốn làm Weaviate optional
+### Khi muá»‘n lÃ m Weaviate optional
 
 ```text
-Đọc @group_project/docs/weaviate.md.
-Chỉ viết script test connect Weaviate. Không tích hợp vào chatbot vội.
+Äá»c @group_project/docs/weaviate.md.
+Chá»‰ viáº¿t script test connect Weaviate. KhÃ´ng tÃ­ch há»£p vÃ o chatbot vá»™i.
 ```
 
-### Khi muốn Codex đọc và chưa code
+### Khi muá»‘n Codex Ä‘á»c vÃ  chÆ°a code
 
 ```text
-Hãy đọc các file sau và tóm tắt ngữ cảnh. Không sửa file:
+HÃ£y Ä‘á»c cÃ¡c file sau vÃ  tÃ³m táº¯t ngá»¯ cáº£nh. KhÃ´ng sá»­a file:
 @AGENTS.md
-@group_project/docs/vibe-coding-plan.md
+@group_project/docs/codex-vibe-coding-guide.md
 ```
 
-### Khi muốn Codex sửa đúng một file
+### Khi muá»‘n Codex sá»­a Ä‘Ãºng má»™t file
 
 ```text
-Chỉ sửa file @group_project/src/qwen_client.py.
-Không sửa file khác.
-Sau khi sửa, chạy smoke test.
+Chá»‰ sá»­a file @group_project/src/qwen_client.py.
+KhÃ´ng sá»­a file khÃ¡c.
+Sau khi sá»­a, cháº¡y smoke test.
 ```
 
-### Khi muốn Codex debug
+### Khi muá»‘n Codex debug
 
 ```text
-Lỗi khi chạy command này:
-<paste lỗi>
+Lá»—i khi cháº¡y command nÃ y:
+<paste lá»—i>
 
-Hãy đọc file liên quan, tìm nguyên nhân, sửa tối thiểu và chạy lại command.
+HÃ£y Ä‘á»c file liÃªn quan, tÃ¬m nguyÃªn nhÃ¢n, sá»­a tá»‘i thiá»ƒu vÃ  cháº¡y láº¡i command.
 ```
 
-### Khi muốn Codex review
+### Khi muá»‘n Codex review
 
 ```text
 Review code trong @group_project/src/rag_pipeline.py.
-Tập trung bug, thiếu citation, thiếu error handling, và chỗ hard-code secret.
-Chưa sửa file.
+Táº­p trung bug, thiáº¿u citation, thiáº¿u error handling, vÃ  chá»— hard-code secret.
+ChÆ°a sá»­a file.
 ```
 
-### Khi muốn Codex nối nhiều file
+### Khi muá»‘n Codex ná»‘i nhiá»u file
 
 ```text
-Đọc:
+Äá»c:
 @group_project/src/pageindex_client.py
 @group_project/src/qwen_client.py
 
-Viết @group_project/src/rag_pipeline.py để nối 2 module này.
+Viáº¿t @group_project/src/rag_pipeline.py Ä‘á»ƒ ná»‘i 2 module nÃ y.
 ```
 
-## Checklist trước khi bảo Codex code
+## Checklist trÆ°á»›c khi báº£o Codex code
 
-Trước mỗi task, hãy nói rõ:
+TrÆ°á»›c má»—i task, hÃ£y nÃ³i rÃµ:
 
-- File nào cần đọc.
-- File nào được phép sửa.
-- Output mong muốn.
-- Command test/smoke test cần chạy.
-- Điều gì không được làm.
+- File nÃ o cáº§n Ä‘á»c.
+- File nÃ o Ä‘Æ°á»£c phÃ©p sá»­a.
+- Output mong muá»‘n.
+- Command test/smoke test cáº§n cháº¡y.
+- Äiá»u gÃ¬ khÃ´ng Ä‘Æ°á»£c lÃ m.
 
-Ví dụ tốt:
+VÃ­ dá»¥ tá»‘t:
 
 ```text
-Đọc AGENTS.md và group_project/docs/pageindex-upload-workflow.md.
-Chỉ sửa group_project/src/pageindex_client.py.
-Viết function upload_documents() và save_manifest().
-Không hard-code API key.
-Sau khi code xong chạy: python group_project/src/pageindex_client.py
+Äá»c AGENTS.md vÃ  group_project/docs/page-index.md.
+Chá»‰ sá»­a group_project/src/pageindex_client.py.
+Viáº¿t function upload_documents() vÃ  save_manifest().
+KhÃ´ng hard-code API key.
+Sau khi code xong cháº¡y: python group_project/src/pageindex_client.py
 ```
 
-## Các lỗi thường gặp khi vibe coding
+## CÃ¡c lá»—i thÆ°á»ng gáº·p khi vibe coding
 
-### Task quá rộng
+### Task quÃ¡ rá»™ng
 
-Không nên:
+KhÃ´ng nÃªn:
 
 ```text
-Build toàn bộ chatbot.
+Build toÃ n bá»™ chatbot.
 ```
 
-Nên:
+NÃªn:
 
 ```text
-Viết trước pageindex_client.py để upload và lưu doc_id.
+Viáº¿t trÆ°á»›c pageindex_client.py Ä‘á»ƒ upload vÃ  lÆ°u doc_id.
 ```
 
-### Không đưa context
+### KhÃ´ng Ä‘Æ°a context
 
-Không nên:
+KhÃ´ng nÃªn:
 
 ```text
-Sửa giúp tôi.
+Sá»­a giÃºp tÃ´i.
 ```
 
-Nên:
+NÃªn:
 
 ```text
-Đọc AGENTS.md và file lỗi này trước: @group_project/src/qwen_client.py
+Äá»c AGENTS.md vÃ  file lá»—i nÃ y trÆ°á»›c: @group_project/src/qwen_client.py
 ```
 
-### Không nói test
+### KhÃ´ng nÃ³i test
 
-Không nên:
+KhÃ´ng nÃªn:
 
 ```text
-Code xong báo tôi.
+Code xong bÃ¡o tÃ´i.
 ```
 
-Nên:
+NÃªn:
 
 ```text
-Code xong chạy smoke test và báo output quan trọng.
+Code xong cháº¡y smoke test vÃ  bÃ¡o output quan trá»ng.
 ```
 
-## Lộ trình prompt cho project này
+## Lá»™ trÃ¬nh prompt cho project nÃ y
 
-Bạn có thể đi theo chuỗi prompt sau:
+Báº¡n cÃ³ thá»ƒ Ä‘i theo chuá»—i prompt sau:
 
-1. Đọc context:
+1. Äá»c context:
 
 ```text
-Đọc AGENTS.md và toàn bộ docs trong group_project/docs. Tóm tắt project. Chưa code.
+Äá»c AGENTS.md vÃ  toÃ n bá»™ docs trong group_project/docs. TÃ³m táº¯t project. ChÆ°a code.
 ```
 
 2. PageIndex:
 
 ```text
-Viết group_project/src/pageindex_client.py theo page-index.md và pageindex-upload-workflow.md.
+Viết group_project/src/pageindex_client.py theo page-index.md.
 ```
 
 3. Qwen:
 
 ```text
-Viết group_project/src/qwen_client.py theo qwen-api.md và qwen-generation-workflow.md.
+Viết group_project/src/qwen_client.py theo qwen-api.md.
 ```
 
 4. Pipeline:
 
 ```text
-Viết group_project/src/rag_pipeline.py nối PageIndex retrieval và Qwen generation.
+Viáº¿t group_project/src/rag_pipeline.py ná»‘i PageIndex retrieval vÃ  Qwen generation.
 ```
 
 5. UI:
 
 ```text
-Viết group_project/app.py bằng Streamlit để demo chatbot.
+Viáº¿t group_project/app.py báº±ng Streamlit Ä‘á»ƒ demo chatbot.
 ```
 
 6. Evaluation:
 
 ```text
-Viết evaluation theo group_project/README.md, ưu tiên đơn giản chạy được.
+Viáº¿t evaluation theo group_project/README.md, Æ°u tiÃªn Ä‘Æ¡n giáº£n cháº¡y Ä‘Æ°á»£c.
 ```
 
-## Nguyên tắc vàng
+## NguyÃªn táº¯c vÃ ng
 
-Codex làm tốt nhất khi bạn giao việc như giao cho một junior engineer thông minh:
+Codex lÃ m tá»‘t nháº¥t khi báº¡n giao viá»‡c nhÆ° giao cho má»™t junior engineer thÃ´ng minh:
 
-- đưa context
-- giới hạn phạm vi
-- nói rõ output
-- bắt verify
-- không yêu cầu quá nhiều thứ một lần
+- Ä‘Æ°a context
+- giá»›i háº¡n pháº¡m vi
+- nÃ³i rÃµ output
+- báº¯t verify
+- khÃ´ng yÃªu cáº§u quÃ¡ nhiá»u thá»© má»™t láº§n
