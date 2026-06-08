@@ -1,0 +1,11 @@
+{
+  "vector_store": "local_jsonl",
+  "path": "data\\index\\vector_store.jsonl",
+  "document_count": 13,
+  "chunk_count": 1791,
+  "chunking_method": "recursive",
+  "chunk_size": 500,
+  "chunk_overlap": 50,
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2__hashing_fallback",
+  "embedding_dim": 384
+}
