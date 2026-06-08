@@ -1,0 +1,22 @@
+{
+  "documents": [
+    {
+      "source": "luat-phong-chong-ma-tuy-2021.pdf",
+      "path": "data/landing/legal/luat-phong-chong-ma-tuy-2021.pdf",
+      "doc_id": "pi-cmq5dk1tp06il01qxn5bqmtqr",
+      "status": "completed"
+    },
+    {
+      "source": "nghi-dinh-105-2021-huong-dan-luat-phong-chong-ma-tuy.pdf",
+      "path": "data/landing/legal/nghi-dinh-105-2021-huong-dan-luat-phong-chong-ma-tuy.pdf",
+      "doc_id": "pi-cmq5dk4r706io01qxre01cyrk",
+      "status": "completed"
+    },
+    {
+      "source": "nghi-dinh-57-2022-danh-muc-chat-ma-tuy-va-tien-chat.pdf",
+      "path": "data/landing/legal/nghi-dinh-57-2022-danh-muc-chat-ma-tuy-va-tien-chat.pdf",
+      "doc_id": "pi-cmq5dk1s606ik01qx7qwh5jeu",
+      "status": "completed"
+    }
+  ]
+}

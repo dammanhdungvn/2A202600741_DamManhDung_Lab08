@@ -1,17 +1,72 @@
 [
   {
-    "question": "Hình phạt cho tội tàng trữ trái phép chất ma tuý theo Điều 249 Bộ luật Hình sự?",
-    "expected_answer": "Phạt tù từ 1 đến 5 năm đối với trường hợp tàng trữ từ 1g đến dưới 5g heroin hoặc cocaine, hoặc chất ma tuý khác với khối lượng tương đương.",
-    "expected_context": "Bộ luật Hình sự 2015, Điều 249"
+    "id": "q1",
+    "question": "Trồng cây cần sa có bị cấm theo luật không?",
+    "expected_behavior": "has_citation",
+    "expected_sources": ["luat-phong-chong-ma-tuy-2021.pdf"],
+    "notes": "Hỏi về hành vi bị cấm cơ bản trong luật."
   },
   {
-    "question": "Luật Phòng chống ma tuý 2021 quy định những hình thức cai nghiện nào?",
-    "expected_answer": "Cai nghiện tự nguyện tại gia đình, cai nghiện tự nguyện tại cộng đồng, cai nghiện tự nguyện tại cơ sở cai nghiện, và cai nghiện bắt buộc tại cơ sở cai nghiện.",
-    "expected_context": "Luật Phòng chống ma tuý 2021, Chương V"
+    "id": "q2",
+    "question": "Danh mục các chất ma túy được quy định ở đâu?",
+    "expected_behavior": "has_citation",
+    "expected_sources": ["nghi-dinh-57-2022-danh-muc-chat-ma-tuy-va-tien-chat.pdf"],
+    "notes": "Hỏi về nghị định quy định danh mục."
   },
   {
-    "question": "Danh mục các chất ma tuý thuộc nhóm I theo quy định pháp luật Việt Nam gồm những chất nào?",
-    "expected_answer": "Nhóm I gồm các chất ma tuý tuyệt đối cấm sử dụng trong y học và đời sống, bao gồm heroin, cocaine, methamphetamine, MDMA (ecstasy), cannabis (cần sa), và các chất tương tự.",
-    "expected_context": "Nghị định 57/2022/NĐ-CP, Phụ lục I"
+    "id": "q3",
+    "question": "Cơ quan nào có thẩm quyền quyết định cai nghiện ma túy bắt buộc?",
+    "expected_behavior": "has_citation",
+    "expected_sources": ["luat-phong-chong-ma-tuy-2021.pdf"],
+    "notes": "Hỏi về thẩm quyền theo luật."
+  },
+  {
+    "id": "q4",
+    "question": "Ai là diễn viên nổi tiếng bị bắt vì ma túy năm ngoái?",
+    "expected_behavior": "fallback",
+    "expected_sources": [],
+    "notes": "Câu hỏi mồi, ngoài ngữ cảnh luật, phải trả lời I cannot verify..."
+  },
+  {
+    "id": "q5",
+    "question": "Người cai nghiện ma túy tự nguyện được hỗ trợ những gì?",
+    "expected_behavior": "has_citation",
+    "expected_sources": ["luat-phong-chong-ma-tuy-2021.pdf", "nghi-dinh-105-2021-huong-dan-luat-phong-chong-ma-tuy.pdf"],
+    "notes": "Hỏi chi tiết về quyền lợi người cai nghiện."
+  },
+  {
+    "id": "q6",
+    "question": "Chất ma túy là gì?",
+    "expected_behavior": "has_citation",
+    "expected_sources": ["luat-phong-chong-ma-tuy-2021.pdf"],
+    "notes": "Định nghĩa cơ bản từ luật."
+  },
+  {
+    "id": "q7",
+    "question": "Gần đây có vụ buôn lậu ma túy nào lớn ở sân bay không?",
+    "expected_behavior": "fallback",
+    "expected_sources": [],
+    "notes": "Câu hỏi tin tức nhưng nếu PageIndex không có báo mạng, phải fallback."
+  },
+  {
+    "id": "q8",
+    "question": "Các loại tiền chất ma túy được phân loại như thế nào?",
+    "expected_behavior": "has_citation",
+    "expected_sources": ["nghi-dinh-57-2022-danh-muc-chat-ma-tuy-va-tien-chat.pdf"],
+    "notes": "Hỏi về cách phân loại trong nghị định 57."
+  },
+  {
+    "id": "q9",
+    "question": "Thành lập cơ sở cai nghiện tư nhân cần điều kiện gì?",
+    "expected_behavior": "has_citation",
+    "expected_sources": ["nghi-dinh-105-2021-huong-dan-luat-phong-chong-ma-tuy.pdf"],
+    "notes": "Chi tiết hướng dẫn nghị định 105."
+  },
+  {
+    "id": "q10",
+    "question": "Ma túy đá và cần sa khác nhau thế nào theo y học?",
+    "expected_behavior": "fallback",
+    "expected_sources": [],
+    "notes": "Câu hỏi y học, không phải pháp luật thuần túy, có thể phải fallback nếu luật không giải thích y học."
   }
 ]
