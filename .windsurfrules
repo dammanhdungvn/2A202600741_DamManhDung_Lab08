@@ -1,0 +1,22 @@
+# Windsurf Rules
+
+Read these files before coding:
+
+- AGENTS.md
+- group_project/docs/project-brief.md
+- group_project/docs/page-index.md
+- group_project/docs/qwen-api.md
+- group_project/docs/codex-vibe-coding-guide.md
+
+Rules:
+
+- Keep implementation simple and easy for a fresher/junior to follow.
+- Do not hard-code API keys, base URLs, model names, or doc IDs.
+- Read config from .env.
+- PageIndex uploads only the 3 legal PDFs listed in page-index.md.
+- Qwen answers must be grounded in retrieved context.
+- Use citation format [Source, Year].
+- If evidence is missing, return: I cannot verify this information.
+- Do not change tests unless explicitly asked.
+- Run a focused smoke test after edits.
+

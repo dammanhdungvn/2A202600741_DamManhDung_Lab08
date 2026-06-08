@@ -1,0 +1,31 @@
+---
+description: RAG chatbot group project rules
+globs:
+  - "**/*.py"
+  - "**/*.md"
+alwaysApply: true
+---
+
+# RAG Group Project Rules
+
+Read these files before coding:
+
+- `AGENTS.md`
+- `group_project/docs/project-brief.md`
+- `group_project/docs/page-index.md`
+- `group_project/docs/qwen-api.md`
+- `group_project/docs/codex-vibe-coding-guide.md`
+
+Keep the implementation simple and demo-ready.
+
+Rules:
+
+- Do not hard-code API keys or model names.
+- Read Qwen config from `.env`: `QWEN_API_KEY`, `QWEN_BASE_URL`, `QWEN_MODEL_NAME`.
+- Read PageIndex config from `.env`: `PAGEINDEX_API_KEY`.
+- PageIndex should upload only the 3 legal PDF files listed in `group_project/docs/page-index.md`.
+- Qwen answers must be based on retrieved context and include citation `[Source, Year]`.
+- If evidence is missing, return `I cannot verify this information`.
+- Do not change unit tests unless explicitly asked.
+- After coding, run a small smoke test or the relevant pytest command.
+

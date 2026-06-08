@@ -28,6 +28,21 @@ Read these before coding:
 - `group_project/docs/page-index.md`
 - `group_project/docs/weaviate.md`
 - `group_project/docs/codex-vibe-coding-guide.md`
+- `group_project/docs/multi-platform-agent-setup.md`
+
+## Multi-Platform Agent Files
+
+This repo supports several AI coding tools:
+
+- Codex: `AGENTS.md`
+- Cursor: `.cursor/rules/rag-group-project.mdc`
+- GitHub Copilot / VS Code: `.github/copilot-instructions.md`
+- Claude Code: `CLAUDE.md`
+- Gemini CLI: `GEMINI.md`
+- Windsurf: `.windsurfrules`
+
+Keep detailed project knowledge in `AGENTS.md` and `group_project/docs/`.
+Keep tool-specific files short and easy to scan.
 
 ## Environment Rules
 
