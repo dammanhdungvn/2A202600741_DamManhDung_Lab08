@@ -1,46 +1,46 @@
 # Weaviate Guide
 
-## Dung de lam gi?
+## Dùng để làm gì?
 
-Weaviate la vector database. No dung de luu chunks + embeddings va search theo vector/hybrid.
+Weaviate là vector database. Nó dùng để lưu chunks + embeddings và search theo vector/hybrid.
 
-Trong project nay Weaviate la optional:
+Trong project này, Weaviate là optional:
 
-- Neu lam theo PageIndex: co the chua can Weaviate.
-- Neu muon dung pipeline ca nhan Task 4-9 nang cap len cloud: dung Weaviate.
+- Nếu làm theo PageIndex: có thể chưa cần Weaviate.
+- Nếu muốn dùng pipeline cá nhân Task 4-9 nâng cấp lên cloud: dùng Weaviate.
 
-## Khi nao dung Weaviate?
+## Khi nào dùng Weaviate?
 
-Dung Weaviate khi ban muon:
+Dùng Weaviate khi bạn muốn:
 
-- luu chunks len cloud
-- semantic search bang vector
+- lưu chunks lên cloud
+- semantic search bằng vector
 - hybrid search vector + keyword
-- demo retrieval nhanh hon local file
+- demo retrieval nhanh hơn local file
 
-Khong bat buoc dung Weaviate neu group chi lam:
+Không bắt buộc dùng Weaviate nếu group chỉ làm:
 
 ```text
 PageIndex PDF retrieval -> Qwen generation -> chatbot
 ```
 
-## Bien trong `.env`
+## Biến trong `.env`
 
-Can co:
+Cần có:
 
 ```env
 WEAVIATE_URL=https://your-cluster.weaviate.cloud
 WEAVIATE_API_KEY=your_weaviate_api_key
 ```
 
-Rule quan trong:
+Rule quan trọng:
 
-- Khong hard-code API key.
-- Luon doc tu `.env`.
-- `WEAVIATE_URL` phai co `https://`.
-- Sau khi dung xong, goi `client.close()`.
+- Không hard-code API key.
+- Luôn đọc từ `.env`.
+- `WEAVIATE_URL` phải có `https://`.
+- Sau khi dùng xong, gọi `client.close()`.
 
-## Code mau connect
+## Code mẫu connect
 
 ```python
 import os
@@ -70,31 +70,30 @@ print(client.is_ready())
 client.close()
 ```
 
-Ket qua mong doi:
+Kết quả mong đợi:
 
 ```text
 True
 ```
 
-## Luu y cho fresher/junior
+## Lưu ý cho fresher/junior
 
-Neu ban dang build demo group nhanh, hay lam PageIndex truoc. Weaviate chi nen lam sau khi:
+Nếu bạn đang build demo group nhanh, hãy làm PageIndex trước. Weaviate chỉ nên làm sau khi:
 
-1. Qwen da call duoc.
-2. PageIndex da upload 3 PDF va co `doc_id`.
-3. Chatbot da tra loi duoc cau hoi co citation.
+1. Qwen đã call được.
+2. PageIndex đã upload 3 PDF và có `doc_id`.
+3. Chatbot đã trả lời được câu hỏi có citation.
 
-Sau do moi tinh toi Weaviate de cai thien retrieval.
+Sau đó mới tính tới Weaviate để cải thiện retrieval.
 
-## Prompt mau cho Codex
+## Prompt mẫu cho Codex
 
 ```text
-Doc group_project/docs/weaviate.md.
-Chi viet script test connect Weaviate.
-Yeu cau:
-- doc WEAVIATE_URL va WEAVIATE_API_KEY tu .env
+Đọc group_project/docs/weaviate.md.
+Chỉ viết script test connect Weaviate.
+Yêu cầu:
+- đọc WEAVIATE_URL và WEAVIATE_API_KEY từ .env
 - print client.is_ready()
 - close client sau khi xong
-- khong hard-code secret
+- không hard-code secret
 ```
-

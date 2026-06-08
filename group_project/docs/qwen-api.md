@@ -1,20 +1,20 @@
 # Qwen API Guide
 
-## Dung de lam gi?
+## Dùng để làm gì?
 
-Qwen la model LLM dung de viet cau tra loi cuoi cung cho chatbot.
+Qwen là model LLM dùng để viết câu trả lời cuối cùng cho chatbot.
 
-Trong project nay:
+Trong project này:
 
 ```text
-retrieved context -> Qwen -> answer co citation
+retrieved context -> Qwen -> answer có citation
 ```
 
-Qwen dung OpenAI-compatible API, nen minh goi bang `OpenAI` SDK.
+Qwen dùng OpenAI-compatible API, nên mình gọi bằng `OpenAI` SDK.
 
-## Bien trong `.env`
+## Biến trong `.env`
 
-Can co:
+Cần có:
 
 ```env
 QWEN_API_KEY=your_qwen_api_key
@@ -22,15 +22,15 @@ QWEN_BASE_URL=https://dashscope-intl.aliyuncs.com/compatible-mode/v1
 QWEN_MODEL_NAME=your_model_name
 ```
 
-Rule quan trong:
+Rule quan trọng:
 
-- Khong hard-code API key.
-- Khong hard-code base URL.
-- Khong hard-code model name.
-- Luon doc tu `.env`.
-- Khong viet `os.getenv("")`.
+- Không hard-code API key.
+- Không hard-code base URL.
+- Không hard-code model name.
+- Luôn đọc từ `.env`.
+- Không viết `os.getenv("")`.
 
-## Code mau don gian
+## Code mẫu đơn giản
 
 ```python
 import os
@@ -64,11 +64,11 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-## Cach dung trong RAG
+## Cách dùng trong RAG
 
-Qwen khong nen tu doan. Hay dua context vao prompt.
+Qwen không nên tự đoán. Hãy đưa context vào prompt.
 
-Prompt nen co dang:
+Prompt nên có dạng:
 
 ```text
 Question:
@@ -78,32 +78,32 @@ Context:
 {retrieved_context}
 
 Rules:
-- Chi tra loi dua tren context.
-- Moi y quan trong phai co citation [Source, Year].
-- Neu khong du bang chung, tra loi: I cannot verify this information.
+- Chỉ trả lời dựa trên context.
+- Mỗi ý quan trọng phải có citation [Source, Year].
+- Nếu không đủ bằng chứng, trả lời: I cannot verify this information.
 ```
 
-## Output mong muon
+## Output mong muốn
 
-Nen return dict:
+Nên return dict:
 
 ```python
 {
-    "answer": "Cau tra loi co citation [Source, Year]",
+    "answer": "Câu trả lời có citation [Source, Year]",
     "sources": [...]
 }
 ```
 
-## Prompt mau cho Codex
+## Prompt mẫu cho Codex
 
 ```text
-Doc group_project/docs/qwen-api.md.
-Viet group_project/src/qwen_client.py.
-Yeu cau:
-- doc QWEN_API_KEY, QWEN_BASE_URL, QWEN_MODEL_NAME tu .env
-- dung OpenAI SDK
-- viet function generate_answer(question, contexts)
-- answer phai co citation [Source, Year]
-- neu thieu evidence thi tra "I cannot verify this information"
-- khong hard-code secret
+Đọc group_project/docs/qwen-api.md.
+Viết group_project/src/qwen_client.py.
+Yêu cầu:
+- đọc QWEN_API_KEY, QWEN_BASE_URL, QWEN_MODEL_NAME từ .env
+- dùng OpenAI SDK
+- viết function generate_answer(question, contexts)
+- answer phải có citation [Source, Year]
+- nếu thiếu evidence thì trả "I cannot verify this information"
+- không hard-code secret
 ```

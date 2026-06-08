@@ -1,50 +1,49 @@
 # Project Brief
 
-## Goal
+## Mục tiêu
 
-Build a small RAG chatbot or evaluation demo for Vietnamese drug law and related news.
+Xây dựng một chatbot RAG nhỏ hoặc demo đánh giá cho luật phòng, chống ma túy Việt Nam và các tin tức liên quan.
 
-The chatbot should answer questions using retrieved evidence and cite sources. The group project should be simple enough to demo locally.
+Chatbot cần trả lời câu hỏi dựa trên bằng chứng được retrieve và trích dẫn nguồn. Group project nên đủ đơn giản để demo local.
 
-## Main User Flow
+## Luồng người dùng chính
 
-1. User asks a question about drug law or related news.
-2. App retrieves relevant context.
-3. Qwen generates an answer using only retrieved context.
-4. App displays the answer and source documents.
-5. User can ask follow-up questions.
+1. User đặt câu hỏi về luật ma túy hoặc tin tức liên quan.
+2. App retrieve context liên quan.
+3. Qwen tạo câu trả lời chỉ dựa trên context đã retrieve.
+4. App hiển thị câu trả lời và tài liệu nguồn.
+5. User có thể hỏi tiếp các câu follow-up.
 
-## Knowledge Sources
+## Nguồn tri thức
 
-For PageIndex, upload only the PDF files accepted by the tool:
+Với PageIndex, chỉ upload các file PDF được tool hỗ trợ:
 
 - `data/landing/legal/luat-phong-chong-ma-tuy-2021.pdf`
 - `data/landing/legal/nghi-dinh-105-2021-huong-dan-luat-phong-chong-ma-tuy.pdf`
 - `data/landing/legal/nghi-dinh-57-2022-danh-muc-chat-ma-tuy-va-tien-chat.pdf`
 
-The existing markdown/news/vector-store pipeline can still be used locally, but the PageIndex part should focus on these PDFs.
+Pipeline markdown/news/vector-store hiện có vẫn có thể dùng local, nhưng phần PageIndex nên tập trung vào các PDF này.
 
-## Must-Have Features
+## Tính năng bắt buộc
 
-- Ask a question.
-- Retrieve context from PageIndex or the existing local retrieval pipeline.
-- Generate an answer with Qwen.
-- Include citation format `[Source, Year]`.
-- Show source documents/chunks used.
-- Return `I cannot verify this information` when evidence is insufficient.
+- Đặt câu hỏi.
+- Retrieve context từ PageIndex hoặc pipeline local retrieval hiện có.
+- Generate câu trả lời bằng Qwen.
+- Có citation theo format `[Source, Year]`.
+- Hiển thị source documents/chunks đã dùng.
+- Trả `I cannot verify this information` khi bằng chứng không đủ.
 
-## Nice-To-Have Features
+## Tính năng nên có
 
-- Conversation memory for follow-up questions.
-- Evaluation pipeline with at least 15 golden Q&A pairs.
-- A/B comparison such as hybrid retrieval vs PageIndex-only retrieval.
+- Conversation memory cho câu hỏi follow-up.
+- Evaluation pipeline với ít nhất 15 cặp Q&A chuẩn.
+- So sánh A/B, ví dụ hybrid retrieval vs PageIndex-only retrieval.
 
-## Demo Scope
+## Phạm vi demo
 
-Keep the demo small:
+Giữ demo nhỏ gọn:
 
-- One app file is acceptable.
-- One retrieval wrapper is acceptable.
-- One generation wrapper is acceptable.
-- One evaluation script is acceptable.
-
+- Một file app là chấp nhận được.
+- Một retrieval wrapper là chấp nhận được.
+- Một generation wrapper là chấp nhận được.
+- Một evaluation script là chấp nhận được.

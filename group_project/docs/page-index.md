@@ -1,18 +1,18 @@
 # PageIndex Guide
 
-## Dung de lam gi?
+## Dùng để làm gì?
 
-PageIndex dung de upload PDF, process tai lieu, va lay `doc_id` de retrieval.
+PageIndex dùng để upload PDF, process tài liệu, và lấy `doc_id` để retrieval.
 
-Trong project nay PageIndex la retrieval source cho chatbot:
+Trong project này, PageIndex là retrieval source cho chatbot:
 
 ```text
-PDF legal -> PageIndex -> retrieve context -> Qwen -> answer co citation
+PDF legal -> PageIndex -> retrieve context -> Qwen -> answer có citation
 ```
 
-## File can upload
+## File cần upload
 
-Dashboard PageIndex chi cho upload PDF, nen upload 3 file nay:
+Dashboard PageIndex chỉ cho upload PDF, nên upload 3 file này:
 
 ```text
 data/landing/legal/luat-phong-chong-ma-tuy-2021.pdf
@@ -20,7 +20,7 @@ data/landing/legal/nghi-dinh-105-2021-huong-dan-luat-phong-chong-ma-tuy.pdf
 data/landing/legal/nghi-dinh-57-2022-danh-muc-chat-ma-tuy-va-tien-chat.pdf
 ```
 
-Khong upload:
+Không upload:
 
 - `.env`
 - file code
@@ -28,22 +28,22 @@ Khong upload:
 - local vector store trong `data/index/`
 - cache/test files
 
-## Bien trong `.env`
+## Biến trong `.env`
 
-Can co:
+Cần có:
 
 ```env
 PAGEINDEX_API_KEY=your_pageindex_api_key
 ```
 
-Rule quan trong:
+Rule quan trọng:
 
-- Khong hard-code API key.
-- Luon doc `PAGEINDEX_API_KEY` tu `.env`.
-- Sau khi upload, phai luu `doc_id`.
-- Chi query document khi status la `completed`.
+- Không hard-code API key.
+- Luôn đọc `PAGEINDEX_API_KEY` từ `.env`.
+- Sau khi upload, phải lưu `doc_id`.
+- Chỉ query document khi status là `completed`.
 
-## Code mau connect
+## Code mẫu connect
 
 ```python
 import os
@@ -64,23 +64,23 @@ client = PageIndexClient(api_key=api_key)
 ## Upload flow
 
 ```text
-1. Chon 3 PDF legal
+1. Chọn 3 PDF legal
 2. submit_document(file_path)
-3. Lay doc_id
-4. get_document(doc_id) de check status
-5. Neu status == completed thi luu vao manifest
-6. Khi user hoi, dung doc_id de query/retrieve
+3. Lấy doc_id
+4. get_document(doc_id) để check status
+5. Nếu status == completed thì lưu vào manifest
+6. Khi user hỏi, dùng doc_id để query/retrieve
 ```
 
-## Manifest nen luu
+## Manifest nên lưu
 
-Nen luu file:
+Nên lưu file:
 
 ```text
 group_project/pageindex_manifest.json
 ```
 
-Vi du:
+Ví dụ:
 
 ```json
 {
@@ -95,15 +95,15 @@ Vi du:
 }
 ```
 
-## Prompt mau cho Codex
+## Prompt mẫu cho Codex
 
 ```text
-Doc group_project/docs/page-index.md.
-Viet group_project/src/pageindex_client.py.
-Yeu cau:
-- upload dung 3 PDF legal
-- doc PAGEINDEX_API_KEY tu .env
-- luu doc_id vao group_project/pageindex_manifest.json
+Đọc group_project/docs/page-index.md.
+Viết group_project/src/pageindex_client.py.
+Yêu cầu:
+- upload đúng 3 PDF legal
+- đọc PAGEINDEX_API_KEY từ .env
+- lưu doc_id vào group_project/pageindex_manifest.json
 - check status completed
-- khong hard-code secret
+- không hard-code secret
 ```

@@ -1,18 +1,18 @@
 # Codex Vibe Coding Guide
 
-## Muc tieu
+## Mục tiêu
 
-File nay huong dan cach dung Codex de vibe coding hieu qua cho group project.
+File này hướng dẫn cách dùng Codex để vibe coding hiệu quả cho group project.
 
-Neu ban dung nhieu IDE/agent khac nhau, doc them:
+Nếu bạn dùng nhiều IDE/agent khác nhau, đọc thêm:
 
 ```text
 group_project/docs/multi-platform-agent-setup.md
 ```
 
-## Y tuong chinh
+## Ý tưởng chính
 
-Dung chung mot bo docs:
+Dùng chung một bộ docs:
 
 - `AGENTS.md`
 - `group_project/docs/project-brief.md`
@@ -20,7 +20,7 @@ Dung chung mot bo docs:
 - `group_project/docs/qwen-api.md`
 - `group_project/docs/weaviate.md`
 
-Sau do moi tool se co mot file adapter rieng:
+Sau đó mỗi tool sẽ có một file adapter riêng:
 
 - Codex: `AGENTS.md`
 - Cursor: `.cursor/rules/rag-group-project.mdc`
@@ -29,13 +29,13 @@ Sau do moi tool se co mot file adapter rieng:
 - Gemini CLI: `GEMINI.md`
 - Windsurf: `.windsurfrules`
 
-## Hieu nhanh `/` va `@`
+## Hiểu nhanh `/` và `@`
 
 ### `/`
 
-`/` thuong la command cua tool.
+`/` thường là command của tool.
 
-Vi du:
+Ví dụ:
 
 ```text
 /plan
@@ -44,13 +44,13 @@ Vi du:
 /test
 ```
 
-Khong phai tool nao cung co cac command nay. Neu khong chac, cu viet bang ngon ngu binh thuong.
+Không phải tool nào cũng có các command này. Nếu không chắc, cứ viết bằng ngôn ngữ bình thường.
 
 ### `@`
 
-`@` thuong dung de tag file cho AI doc.
+`@` thường dùng để tag file cho AI đọc.
 
-Vi du:
+Ví dụ:
 
 ```text
 @AGENTS.md
@@ -58,191 +58,190 @@ Vi du:
 @group_project/docs/qwen-api.md
 ```
 
-Neu tool khong ho tro `@`, viet duong dan file bang text la du.
+Nếu tool không hỗ trợ `@`, viết đường dẫn file bằng text là đủ.
 
-## Workflow nen dung
+## Workflow nên dùng
 
-### 1. Bat AI doc context truoc
+### 1. Bắt AI đọc context trước
 
-Prompt mau:
+Prompt mẫu:
 
 ```text
-Truoc khi code, hay doc:
+Trước khi code, hãy đọc:
 - AGENTS.md
 - group_project/docs/project-brief.md
 - group_project/docs/page-index.md
 - group_project/docs/qwen-api.md
 
-Sau do tom tat ban hieu task nay the nao. Chua sua file.
+Sau đó tóm tắt bạn hiểu task này thế nào. Chưa sửa file.
 ```
 
-### 2. Yeu cau plan nho
+### 2. Yêu cầu plan nhỏ
 
-Prompt mau:
+Prompt mẫu:
 
 ```text
-Hay lap plan build PageIndex client.
-Yeu cau:
-- chi upload 3 PDF legal trong page-index.md
-- doc PAGEINDEX_API_KEY tu .env
-- luu doc_id vao manifest
-- chua code voi
+Hãy lập plan build PageIndex client.
+Yêu cầu:
+- chỉ upload 3 PDF legal trong page-index.md
+- đọc PAGEINDEX_API_KEY từ .env
+- lưu doc_id vào manifest
+- chưa code vội
 ```
 
-### 3. Cho code tung phan nho
+### 3. Cho code từng phần nhỏ
 
-Prompt mau:
+Prompt mẫu:
 
 ```text
-Chi sua group_project/src/pageindex_client.py.
-Viet function upload_documents() va save_manifest().
-Khong hard-code API key.
-Sau khi code xong chay smoke test.
+Chỉ sửa group_project/src/pageindex_client.py.
+Viết function upload_documents() và save_manifest().
+Không hard-code API key.
+Sau khi code xong chạy smoke test.
 ```
 
-### 4. Bat verify sau khi code
+### 4. Bắt verify sau khi code
 
-Prompt mau:
+Prompt mẫu:
 
 ```text
-Hay chay smoke test cho file vua viet.
-Neu loi thi sua toi thieu. Khong sua file khong lien quan.
+Hãy chạy smoke test cho file vừa viết.
+Nếu lỗi thì sửa tối thiểu. Không sửa file không liên quan.
 ```
 
-## Prompt mau cho task PageIndex
+## Prompt mẫu cho task PageIndex
 
 ```text
-Doc:
+Đọc:
 - AGENTS.md
 - group_project/docs/page-index.md
 
-Viet group_project/src/pageindex_client.py.
-Yeu cau:
-- doc PAGEINDEX_API_KEY tu .env
+Viết group_project/src/pageindex_client.py.
+Yêu cầu:
+- đọc PAGEINDEX_API_KEY từ .env
 - upload 3 PDF legal
-- luu doc_id vao group_project/pageindex_manifest.json
-- chi dung document status completed
-- khong hard-code secret
-- chay smoke test sau khi code
+- lưu doc_id vào group_project/pageindex_manifest.json
+- chỉ dùng document status completed
+- không hard-code secret
+- chạy smoke test sau khi code
 ```
 
-## Prompt mau cho task Qwen
+## Prompt mẫu cho task Qwen
 
 ```text
-Doc:
+Đọc:
 - AGENTS.md
 - group_project/docs/qwen-api.md
 
-Viet group_project/src/qwen_client.py.
-Yeu cau:
-- doc QWEN_API_KEY, QWEN_BASE_URL, QWEN_MODEL_NAME tu .env
-- dung OpenAI SDK compatible
-- viet function generate_answer(question, contexts)
-- answer phai co citation [Source, Year]
-- neu thieu evidence tra "I cannot verify this information"
-- khong hard-code secret
+Viết group_project/src/qwen_client.py.
+Yêu cầu:
+- đọc QWEN_API_KEY, QWEN_BASE_URL, QWEN_MODEL_NAME từ .env
+- dùng OpenAI SDK compatible
+- viết function generate_answer(question, contexts)
+- answer phải có citation [Source, Year]
+- nếu thiếu evidence trả "I cannot verify this information"
+- không hard-code secret
 ```
 
-## Prompt mau cho RAG pipeline
+## Prompt mẫu cho RAG pipeline
 
 ```text
-Doc:
+Đọc:
 - group_project/src/pageindex_client.py
 - group_project/src/qwen_client.py
 
-Viet group_project/src/rag_pipeline.py.
-Yeu cau:
-- nhan question
-- retrieve context tu PageIndex
-- goi Qwen de generate answer
-- return dict gom answer va sources
-- code don gian de demo
+Viết group_project/src/rag_pipeline.py.
+Yêu cầu:
+- nhận question
+- retrieve context từ PageIndex
+- gọi Qwen để generate answer
+- return dict gồm answer và sources
+- code đơn giản để demo
 ```
 
-## Prompt mau cho UI
+## Prompt mẫu cho UI
 
 ```text
-Viet group_project/app.py bang Streamlit.
-Yeu cau:
-- o chat nhap cau hoi
-- goi rag_pipeline
-- hien thi answer
-- hien thi sources
-- dung session_state luu history don gian
-- khong lam UI phuc tap
+Viết group_project/app.py bằng Streamlit.
+Yêu cầu:
+- ô chat nhập câu hỏi
+- gọi rag_pipeline
+- hiển thị answer
+- hiển thị sources
+- dùng session_state lưu history đơn giản
+- không làm UI phức tạp
 ```
 
-## Prompt mau cho review
+## Prompt mẫu cho review
 
 ```text
-Review file nay:
+Review file này:
 @group_project/src/rag_pipeline.py
 
-Chi tim bug, hard-code secret, thieu citation, thieu error handling.
-Chua sua file.
+Chỉ tìm bug, hard-code secret, thiếu citation, thiếu error handling.
+Chưa sửa file.
 ```
 
-## Checklist truoc khi giao viec cho AI
+## Checklist trước khi giao việc cho AI
 
-Hay noi ro:
+Hãy nói rõ:
 
-- AI can doc file nao.
-- AI duoc sua file nao.
-- Output mong muon la gi.
-- Command test/smoke test can chay.
-- Dieu gi khong duoc lam.
+- AI cần đọc file nào.
+- AI được sửa file nào.
+- Output mong muốn là gì.
+- Command test/smoke test cần chạy.
+- Điều gì không được làm.
 
-Vi du tot:
+Ví dụ tốt:
 
 ```text
-Doc AGENTS.md va group_project/docs/page-index.md.
-Chi sua group_project/src/pageindex_client.py.
-Viet upload_documents().
-Khong hard-code API key.
-Sau khi code xong chay: python group_project/src/pageindex_client.py
+Đọc AGENTS.md và group_project/docs/page-index.md.
+Chỉ sửa group_project/src/pageindex_client.py.
+Viết upload_documents().
+Không hard-code API key.
+Sau khi code xong chạy: python group_project/src/pageindex_client.py
 ```
 
-## Loi thuong gap
+## Lỗi thường gặp
 
-### Task qua rong
+### Task quá rộng
 
-Khong nen:
+Không nên:
 
 ```text
 Build full chatbot.
 ```
 
-Nen:
+Nên:
 
 ```text
-Viet pageindex_client.py truoc.
+Viết pageindex_client.py trước.
 ```
 
-### Khong dua context
+### Không đưa context
 
-Khong nen:
+Không nên:
 
 ```text
-Sua giup toi.
+Sửa giúp tôi.
 ```
 
-Nen:
+Nên:
 
 ```text
-Doc AGENTS.md va group_project/docs/qwen-api.md truoc.
+Đọc AGENTS.md và group_project/docs/qwen-api.md trước.
 ```
 
-### Khong bat test
+### Không bắt test
 
-Khong nen:
+Không nên:
 
 ```text
-Code xong bao toi.
+Code xong báo tôi.
 ```
 
-Nen:
+Nên:
 
 ```text
-Code xong chay smoke test va bao output quan trong.
+Code xong chạy smoke test và báo output quan trọng.
 ```
-

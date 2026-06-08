@@ -1,19 +1,19 @@
 # Multi-Platform Agent Setup
 
-## Goal
+## Mục tiêu
 
-Use the same project docs with many AI coding tools, not only Codex.
+Dùng cùng một bộ docs project với nhiều AI coding tools, không chỉ Codex.
 
-The main idea:
+Ý tưởng chính:
 
 ```text
-Shared docs = source of truth
-Tool-specific files = small adapters
+Shared docs = nguồn sự thật chung
+Tool-specific files = adapter nhỏ cho từng tool
 ```
 
 ## Shared docs
 
-These files are useful for every AI coding tool:
+Các file này hữu ích cho mọi AI coding tool:
 
 - `AGENTS.md`
 - `group_project/docs/project-brief.md`
@@ -26,7 +26,7 @@ These files are useful for every AI coding tool:
 
 ### Codex
 
-Uses:
+Dùng:
 
 ```text
 AGENTS.md
@@ -34,13 +34,13 @@ AGENTS.md
 
 ### Cursor
 
-Uses:
+Dùng:
 
 ```text
 .cursor/rules/rag-group-project.mdc
 ```
 
-You can also tag docs manually in chat:
+Bạn cũng có thể tag docs thủ công trong chat:
 
 ```text
 @group_project/docs/page-index.md
@@ -49,7 +49,7 @@ You can also tag docs manually in chat:
 
 ### GitHub Copilot / VS Code
 
-Uses:
+Dùng:
 
 ```text
 .github/copilot-instructions.md
@@ -57,7 +57,7 @@ Uses:
 
 ### Claude Code
 
-Uses:
+Dùng:
 
 ```text
 CLAUDE.md
@@ -65,7 +65,7 @@ CLAUDE.md
 
 ### Gemini CLI
 
-Uses:
+Dùng:
 
 ```text
 GEMINI.md
@@ -73,39 +73,38 @@ GEMINI.md
 
 ### Windsurf
 
-Uses:
+Dùng:
 
 ```text
 .windsurfrules
 ```
 
-## Best prompt for any platform
+## Prompt tốt nhất cho mọi platform
 
-Use this when starting a new task:
+Dùng prompt này khi bắt đầu task mới:
 
 ```text
-Before coding, read:
+Trước khi code, hãy đọc:
 - AGENTS.md
 - group_project/docs/project-brief.md
 - group_project/docs/page-index.md
 - group_project/docs/qwen-api.md
 
 Task:
-<your task here>
+<task của bạn ở đây>
 
 Rules:
-- Keep code simple.
-- Do not hard-code secrets.
-- Run a smoke test after coding.
+- Giữ code đơn giản.
+- Không hard-code secrets.
+- Chạy smoke test sau khi code.
 ```
 
-## Keep docs simple
+## Giữ docs đơn giản
 
-Do not duplicate long explanations in every tool file.
+Không duplicate giải thích dài trong mọi tool file.
 
-If project rules change:
+Nếu rule project thay đổi:
 
 1. Update `AGENTS.md`.
-2. Update the related doc in `group_project/docs/`.
-3. Only update tool-specific files if the rule is very important.
-
+2. Update doc liên quan trong `group_project/docs/`.
+3. Chỉ update tool-specific files nếu rule đó rất quan trọng.
