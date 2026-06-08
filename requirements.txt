@@ -39,3 +39,6 @@ deepeval>=1.0.0
 # trulens>=1.0.0         # Alternative
 
 pytest
+python-dotenv
+openai
+pageindex
