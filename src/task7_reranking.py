@@ -1,55 +1,89 @@
 """
-Task 7 — Reranking Module.
+Task 7 - Reranking module.
 
-Chọn 1 trong các phương pháp:
-    - Cross-encoder reranker: Jina Reranker v2 (multilingual) hoặc Qwen3-Reranker
-    - MMR (Maximal Marginal Relevance): tự implement
-    - RRF (Reciprocal Rank Fusion): tự implement
+Chosen approach: local reranking plus RRF/MMR helpers.
 
-Nếu dùng MMR hoặc RRF, đảm bảo hiểu và giải thích được cơ chế.
+The default rerank() is an offline relevance reranker: it combines the original
+retrieval score with query/document token overlap. This gives deterministic
+rescoring without an API key. rerank_rrf() is also implemented for Task 9 hybrid
+fusion, and rerank_mmr() is available when candidates include embeddings.
 """
 
-from typing import Optional
+from __future__ import annotations
+
+import math
+import re
+from collections import Counter
 
 
-def rerank_cross_encoder(
-    query: str, candidates: list[dict], top_k: int = 5
-) -> list[dict]:
+def tokenize(text: str) -> list[str]:
+    """Lightweight Unicode tokenizer for Vietnamese and English text."""
+    return re.findall(r"[\wÀ-ỹ]+", (text or "").lower(), flags=re.UNICODE)
+
+
+def _cosine(left: list[float], right: list[float]) -> float:
+    if not left or not right:
+        return 0.0
+    length = min(len(left), len(right))
+    dot = sum(float(left[i]) * float(right[i]) for i in range(length))
+    left_norm = math.sqrt(sum(float(left[i]) ** 2 for i in range(length)))
+    right_norm = math.sqrt(sum(float(right[i]) ** 2 for i in range(length)))
+    if left_norm == 0.0 or right_norm == 0.0:
+        return 0.0
+    return dot / (left_norm * right_norm)
+
+
+def _normalize_scores(candidates: list[dict]) -> list[float]:
+    scores = [float(item.get("score", 0.0)) for item in candidates]
+    if not scores:
+        return []
+    min_score = min(scores)
+    max_score = max(scores)
+    if max_score == min_score:
+        return [1.0 if max_score > 0 else 0.0 for _ in scores]
+    return [(score - min_score) / (max_score - min_score) for score in scores]
+
+
+def _overlap_score(query: str, document: str) -> float:
+    query_terms = Counter(tokenize(query))
+    document_terms = Counter(tokenize(document))
+    if not query_terms or not document_terms:
+        return 0.0
+
+    matched_weight = 0
+    total_weight = sum(query_terms.values())
+    for term, query_count in query_terms.items():
+        matched_weight += min(query_count, document_terms.get(term, 0))
+
+    recall = matched_weight / total_weight if total_weight else 0.0
+    unique_overlap = len(set(query_terms).intersection(document_terms)) / len(set(query_terms))
+    return 0.7 * recall + 0.3 * unique_overlap
+
+
+def rerank_cross_encoder(query: str, candidates: list[dict], top_k: int = 5) -> list[dict]:
     """
-    Rerank candidates sử dụng cross-encoder model.
+    Offline cross-encoder-style fallback reranker.
 
-    Args:
-        query: Câu truy vấn
-        candidates: List of {'content': str, 'score': float, 'metadata': dict}
-        top_k: Số lượng kết quả sau rerank
-
-    Returns:
-        List of top_k candidates, re-scored và sorted by rerank_score descending.
+    A real cross-encoder jointly encodes (query, document). For this local
+    assignment, we approximate that behavior deterministically by combining
+    normalized retrieval score and lexical overlap with the query.
     """
-    # TODO: Implement cross-encoder reranking
-    #
-    # Option A: Jina Reranker API
-    # import requests
-    # response = requests.post(
-    #     "https://api.jina.ai/v1/rerank",
-    #     headers={"Authorization": f"Bearer {JINA_API_KEY}"},
-    #     json={
-    #         "model": "jina-reranker-v2-base-multilingual",
-    #         "query": query,
-    #         "documents": [c["content"] for c in candidates],
-    #         "top_n": top_k
-    #     }
-    # )
-    # reranked = response.json()["results"]
-    # return [
-    #     {**candidates[r["index"]], "score": r["relevance_score"]}
-    #     for r in reranked
-    # ]
-    #
-    # Option B: Local model (Qwen3-Reranker)
-    # from transformers import AutoModelForSequenceClassification, AutoTokenizer
-    # ...
-    raise NotImplementedError("Implement rerank_cross_encoder")
+    if top_k <= 0 or not candidates:
+        return []
+
+    normalized_scores = _normalize_scores(candidates)
+    reranked: list[dict] = []
+    for candidate, normalized_score in zip(candidates, normalized_scores):
+        overlap = _overlap_score(query, candidate.get("content", ""))
+        rerank_score = 0.65 * overlap + 0.35 * normalized_score
+        item = candidate.copy()
+        item["metadata"] = candidate.get("metadata", {})
+        item["score"] = float(rerank_score)
+        item["rerank_method"] = "local_overlap"
+        reranked.append(item)
+
+    reranked.sort(key=lambda item: item["score"], reverse=True)
+    return reranked[:top_k]
 
 
 def rerank_mmr(
@@ -59,133 +93,103 @@ def rerank_mmr(
     lambda_param: float = 0.7,
 ) -> list[dict]:
     """
-    Maximal Marginal Relevance — chọn candidates vừa relevant vừa diverse.
+    Maximal Marginal Relevance.
 
-    MMR = λ * sim(query, doc) - (1-λ) * max(sim(doc, selected_docs))
-
-    Args:
-        query_embedding: Vector embedding của query
-        candidates: List of {'content': str, 'score': float, 'embedding': list, 'metadata': dict}
-        top_k: Số lượng kết quả
-        lambda_param: Trade-off giữa relevance (1.0) và diversity (0.0)
-
-    Returns:
-        List of top_k candidates selected by MMR.
+    MMR = lambda * relevance(query, doc) - (1 - lambda) * max_sim(doc, selected)
+    It favors relevant documents while reducing near-duplicates.
     """
-    # TODO: Implement MMR
-    #
-    # selected = []
-    # remaining = list(range(len(candidates)))
-    #
-    # for _ in range(min(top_k, len(candidates))):
-    #     best_idx = None
-    #     best_score = float('-inf')
-    #
-    #     for idx in remaining:
-    #         # Relevance to query
-    #         relevance = cosine_sim(query_embedding, candidates[idx]["embedding"])
-    #
-    #         # Max similarity to already selected
-    #         max_sim_to_selected = 0
-    #         for sel_idx in selected:
-    #             sim = cosine_sim(candidates[idx]["embedding"], candidates[sel_idx]["embedding"])
-    #             max_sim_to_selected = max(max_sim_to_selected, sim)
-    #
-    #         # MMR score
-    #         mmr_score = lambda_param * relevance - (1 - lambda_param) * max_sim_to_selected
-    #
-    #         if mmr_score > best_score:
-    #             best_score = mmr_score
-    #             best_idx = idx
-    #
-    #     selected.append(best_idx)
-    #     remaining.remove(best_idx)
-    #
-    # return [candidates[i] for i in selected]
-    raise NotImplementedError("Implement rerank_mmr")
+    if top_k <= 0 or not candidates:
+        return []
+
+    selected: list[int] = []
+    remaining = set(range(len(candidates)))
+    embeddings = [candidate.get("embedding", []) for candidate in candidates]
+
+    while remaining and len(selected) < top_k:
+        best_index = None
+        best_score = float("-inf")
+
+        for index in remaining:
+            relevance = _cosine(query_embedding, embeddings[index])
+            diversity_penalty = 0.0
+            if selected:
+                diversity_penalty = max(_cosine(embeddings[index], embeddings[chosen]) for chosen in selected)
+            mmr_score = lambda_param * relevance - (1.0 - lambda_param) * diversity_penalty
+
+            if mmr_score > best_score:
+                best_score = mmr_score
+                best_index = index
+
+        if best_index is None:
+            break
+        selected.append(best_index)
+        remaining.remove(best_index)
+
+    results: list[dict] = []
+    for index in selected:
+        item = candidates[index].copy()
+        item["metadata"] = candidates[index].get("metadata", {})
+        item["score"] = float(item.get("score", 0.0))
+        item["rerank_method"] = "mmr"
+        results.append(item)
+    return results
 
 
-def rerank_rrf(
-    ranked_lists: list[list[dict]], top_k: int = 5, k: int = 60
-) -> list[dict]:
+def rerank_rrf(ranked_lists: list[list[dict]], top_k: int = 5, k: int = 60) -> list[dict]:
     """
-    Reciprocal Rank Fusion — gộp kết quả từ nhiều ranker.
+    Reciprocal Rank Fusion.
 
-    RRF(d) = Σ 1 / (k + rank_r(d))
-
-    Args:
-        ranked_lists: List of ranked result lists (mỗi list từ 1 ranker)
-        top_k: Số lượng kết quả cuối cùng
-        k: Smoothing constant (default=60, từ paper Cormack et al. 2009)
-
-    Returns:
-        List of top_k candidates sorted by RRF score descending.
+    RRF(d) = sum(1 / (k + rank_r(d))) across rankers. It is robust because each
+    ranker contributes by position, not raw score scale.
     """
-    # TODO: Implement RRF
-    #
-    # rrf_scores = {}  # content -> score
-    # content_map = {}  # content -> full dict
-    #
-    # for ranked_list in ranked_lists:
-    #     for rank, item in enumerate(ranked_list, 1):
-    #         key = item["content"]
-    #         rrf_scores[key] = rrf_scores.get(key, 0) + 1 / (k + rank)
-    #         content_map[key] = item
-    #
-    # # Sort by RRF score
-    # sorted_items = sorted(rrf_scores.items(), key=lambda x: x[1], reverse=True)
-    #
-    # results = []
-    # for content, score in sorted_items[:top_k]:
-    #     item = content_map[content].copy()
-    #     item["score"] = score
-    #     results.append(item)
-    #
-    # return results
-    raise NotImplementedError("Implement rerank_rrf")
+    if top_k <= 0:
+        return []
 
+    fused_scores: dict[str, float] = {}
+    item_by_key: dict[str, dict] = {}
 
-# =============================================================================
-# Main rerank interface
-# =============================================================================
+    for ranked_list in ranked_lists:
+        for rank, item in enumerate(ranked_list, start=1):
+            key = item.get("metadata", {}).get("path") or item.get("content", "")
+            if not key:
+                continue
+            fused_scores[key] = fused_scores.get(key, 0.0) + 1.0 / (k + rank)
+            item_by_key[key] = item
+
+    results: list[dict] = []
+    for key, score in sorted(fused_scores.items(), key=lambda pair: pair[1], reverse=True)[:top_k]:
+        item = item_by_key[key].copy()
+        item["metadata"] = item.get("metadata", {})
+        item["score"] = float(score)
+        item["rerank_method"] = "rrf"
+        results.append(item)
+
+    return results
+
 
 def rerank(
     query: str,
     candidates: list[dict],
     top_k: int = 5,
-    method: str = "cross_encoder",  # "cross_encoder" | "mmr" | "rrf"
+    method: str = "cross_encoder",
 ) -> list[dict]:
     """
-    Unified reranking interface.
-
-    Args:
-        query: Câu truy vấn
-        candidates: Danh sách candidates từ retrieval
-        top_k: Số lượng kết quả sau rerank
-        method: Phương pháp reranking
-
-    Returns:
-        List of top_k reranked candidates.
+    Re-score and re-order candidates based on relevance to query.
     """
-    if method == "cross_encoder":
+    if method in {"cross_encoder", "local_overlap"}:
         return rerank_cross_encoder(query, candidates, top_k)
-    elif method == "mmr":
-        # Cần query_embedding - embed query trước
-        raise NotImplementedError("Call rerank_mmr with query_embedding")
-    elif method == "rrf":
-        # RRF cần nhiều ranked lists - gọi riêng
-        raise NotImplementedError("Call rerank_rrf with ranked_lists")
-    else:
-        raise ValueError(f"Unknown rerank method: {method}")
+    if method == "rrf":
+        return rerank_rrf([candidates], top_k=top_k)
+    if method == "mmr":
+        raise ValueError("Use rerank_mmr(query_embedding, candidates, ...) for MMR.")
+    raise ValueError(f"Unknown rerank method: {method}")
 
 
 if __name__ == "__main__":
-    # Test with dummy data
     dummy_candidates = [
-        {"content": "Điều 248: Tội tàng trữ trái phép chất ma tuý", "score": 0.8, "metadata": {}},
-        {"content": "Nghệ sĩ X bị bắt vì sử dụng ma tuý", "score": 0.7, "metadata": {}},
-        {"content": "Hình phạt tù từ 2-7 năm cho tội tàng trữ", "score": 0.6, "metadata": {}},
+        {"content": "Dieu 248: Toi tang tru trai phep chat ma tuy", "score": 0.8, "metadata": {}},
+        {"content": "Nghe si bi bat vi su dung ma tuy", "score": 0.7, "metadata": {}},
+        {"content": "Python programming", "score": 0.6, "metadata": {}},
     ]
-    results = rerank("hình phạt tàng trữ ma tuý", dummy_candidates, top_k=2)
-    for r in results:
-        print(f"[{r['score']:.3f}] {r['content']}")
+    for result in rerank("hinh phat tang tru ma tuy", dummy_candidates, top_k=2):
+        print(f"[{result['score']:.3f}] {result['content']}")
