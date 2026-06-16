@@ -7,7 +7,7 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.append(str(ROOT_DIR))
 
 # Import Layer 1 and Layer 2
-from group_project.src.pageindex_client import retrieve_context
+from group_project.src.chroma_client import retrieve_context
 from group_project.src.qwen_client import generate_answer
 
 def ask_question(question: str, chat_history: list = None) -> dict:

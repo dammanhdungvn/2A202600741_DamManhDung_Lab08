@@ -150,7 +150,7 @@ def retrieve_context(query: str, top_k: int = 5) -> list[dict]:
         
     except Exception as e:
         print(f"Retrieval error: {e}")
-        return []
+        raise RuntimeError(f"PageIndex Retrieval Error: {e}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="PageIndex Client for Layer 1")
