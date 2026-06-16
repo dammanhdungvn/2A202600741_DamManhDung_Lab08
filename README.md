@@ -536,14 +536,30 @@ run_dashboard()
 
 ### Hướng Dẫn Chạy
 
-```bash
-# Cài đặt dependencies
+**Dành cho Windows:**
+```powershell
+# 1. Tạo và kích hoạt môi trường ảo (Virtual Environment)
+python -m venv .venv
+.\.venv\Scripts\activate
+
+# 2. Cài đặt dependencies
 pip install -r requirements.txt
 
-# Chạy app
-streamlit run app.py
-# hoặc
-chainlit run app.py
+# 3. Chạy ứng dụng Streamlit
+streamlit run group_project/app.py
+```
+
+**Dành cho Linux/macOS:**
+```bash
+# 1. Tạo và kích hoạt môi trường ảo (Virtual Environment)
+python3 -m venv .venv
+source .venv/bin/activate
+
+# 2. Cài đặt dependencies
+pip install -r requirements.txt
+
+# 3. Chạy ứng dụng Streamlit
+streamlit run group_project/app.py
 ```
 
 ---

@@ -113,22 +113,36 @@ flowchart LR
 
 ## 10. Hướng dẫn chạy
 
-Chạy từ thư mục root của project:
+Chạy từ thư mục root của project.
 
+**Dành cho Windows:**
 ```powershell
+# 1. Kích hoạt môi trường ảo (nếu chưa kích hoạt)
+.\.venv\Scripts\activate
+
+# 2. Cài đặt dependencies
 pip install -r requirements.txt
+
+# 3. Chạy ứng dụng Streamlit
+streamlit run group_project/app.py
+
+# Nếu port 8501 bị chiếm:
+streamlit run group_project/app.py --server.port 8502
 ```
 
-Nếu dùng virtual environment có sẵn:
+**Dành cho Linux/macOS:**
+```bash
+# 1. Kích hoạt môi trường ảo (nếu chưa kích hoạt)
+source .venv/bin/activate
 
-```powershell
-venv\Scripts\streamlit.exe run streamlit\app.py
-```
+# 2. Cài đặt dependencies
+pip install -r requirements.txt
 
-Nếu port 8501 bị chiếm:
+# 3. Chạy ứng dụng Streamlit
+streamlit run group_project/app.py
 
-```powershell
-venv\Scripts\streamlit.exe run streamlit\app.py --server.port 8502
+# Nếu port 8501 bị chiếm:
+streamlit run group_project/app.py --server.port 8502
 ```
 
 ## 11. Cấu hình môi trường
